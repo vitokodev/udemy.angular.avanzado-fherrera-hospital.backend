@@ -1,9 +1,18 @@
 // Requires
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 // Inicializar variables
 const app = express();
+
+// Body Parser
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
+// Importar rutas
+const appRoutes = require('./routes/app');
+const usuarioRoutes = require('./routes/usuario');
 
 // Conexion a la base de datos
 mongoose
@@ -17,13 +26,8 @@ mongoose
   );
 
 // Rutas
-app.get('/', (req, res, next) => {
-  res.status(200).json({
-    ok: true,
-    mensaje: 'Petición realizada correctamente'
-  })
-});
-
+app.use('/usuario', usuarioRoutes);
+app.use('/', appRoutes);
 
 // Escuchar peticiones
 app.listen(3000, ()=> {
