@@ -1,5 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+const SEED = require('../config/config').SEED;
 
 const app = express();
 
@@ -29,10 +32,20 @@ app.post('/', (req, res, next) => {
         });
       }
 
+      usr.password = ':)';
+
+      // Crear token!
+      const token = jwt.sign(
+        { usuario: usr },
+        SEED,
+        { expiresIn: 14400 } // 4 horas
+      );
+
       res.status(200).json({
         ok: true,
         mensaje: 'Login POST correcto',
         usuario: usr,
+        token: token,
         id: usr._id
       });
 
