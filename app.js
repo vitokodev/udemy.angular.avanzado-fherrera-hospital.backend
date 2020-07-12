@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 // Importar rutas
 const appRoutes = require('./routes/app');
 const usuarioRoutes = require('./routes/usuario');
+const loginRoutes = require('./routes/login');
 
 // Conexion a la base de datos
 mongoose
@@ -27,6 +28,7 @@ mongoose
 
 // Rutas
 app.use('/usuario', usuarioRoutes);
+app.use('/login', loginRoutes);
 app.use('/', appRoutes);
 
 // Escuchar peticiones
