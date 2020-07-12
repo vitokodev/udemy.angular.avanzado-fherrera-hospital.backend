@@ -102,4 +102,37 @@ app.post('/', (req, res, next) => {
 
 });
 
+// ==========================
+// Eliminar usuario
+// ==========================
+
+app.delete('/:id', (req, res, next) => {
+
+  const id = req.params.id;
+  // const body = req.body;
+
+  Usuario.findByIdAndRemove(id)
+    .then( resul => {
+      if (!resul) {
+        return res.status(400).json({
+          ok: true,
+          mensaje: 'No existe usuario'
+        });
+      }
+      res.status(200).json({
+        ok: true,
+        mensaje: 'Usuario eliminado',
+        usuario: resul
+      });
+    })
+    .catch( err => {
+      res.status(500).json({
+        ok: false,
+        mensaje: 'Error eliminando USER!!!',
+        errors: err
+      });
+    });
+
+});
+
 module.exports = app;
